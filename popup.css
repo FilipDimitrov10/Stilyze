@@ -1,7 +1,36 @@
 body {
-    font-family: Helvetica;
+    min-width: 295px;
+    text-align: center;
 }
 
-h1 {
-    text-align: center;
+.hr-override {
+    margin: 1px;
+}
+
+header {
+    margin-bottom: 35px;
+}
+
+.s-left {
+    text-align: left;
+}
+.s-right {
+    text-align: right;
+}
+
+input[value="TEXTBKG"] {
+    width: 25px;
+    padding: 2px;
+}
+
+.row:nth-child(2) {
+    margin-bottom: 40px;
+}
+
+h4 {
+    display: inline-block;
+}
+
+.h4-override {
+    font-size: 20px;
 }
