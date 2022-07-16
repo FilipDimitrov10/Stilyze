@@ -1,6 +1,5 @@
 body {
     min-width: 295px;
-    text-align: center;
 }
 
 .hr-override {
@@ -9,6 +8,7 @@ body {
 
 header {
     margin-bottom: 35px;
+    text-align: center;
 }
 
 .s-left {
@@ -27,10 +27,7 @@ input[value="TEXTBKG"] {
     margin-bottom: 40px;
 }
 
-h4 {
-    display: inline-block;
-}
-
 .h4-override {
     font-size: 20px;
+    display: inline-block;
 }
