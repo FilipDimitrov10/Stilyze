@@ -37,12 +37,13 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .row:nth-child(2) {
-    margin-bottom: 40px;
+    margin-bottom: 25px;
 }
-.row:nth-child(3), .row:nth-child(4) {
+.row .row {
     margin-bottom: 12px;
+    margin-left: 0px;
 }
-.row:last-child {
+form > .row:last-child {
     margin-left: -20px;
 }
 
@@ -67,11 +68,27 @@ select {
 label[for="textcolor"] {
     font-size: 16px;
     margin: 0;
-    padding: 3px;
+    padding: 3px 3px 3px 5px;
 }
 
 #textcolor {
     height: 15px;
     width: 15px;
     margin-left: 5px;
+}
+
+.sample {
+    font-size: 25px;
+    text-align: center;
+    padding-bottom: 4px;
+    margin: 0px;
+}
+
+button {
+    width: 60%;
+    height: 35px;
+}
+
+#button-override {
+    font-size: 12px;
 }

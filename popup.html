@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="popup.css">
     <!-- Boostrap css -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    
 </head>
 <body>
     <!-- Add html -->
@@ -42,26 +41,29 @@
             </div>
             <div class="row">
                 <div class="col-6 s-left">
-                    <select name="font-select" id="FontSelect" class="selectpicker" data-live-search="true">
-                        <option value="Font1">Font #1</option>
-                        <option value="Font2">Font #2</option>
-                        <option value="Font3">Font #3</option>
-                        <option value="Font4">Font #4</option>
-                        <option value="Font5">Font #5</option>
-                        <option value="Font6">Font #6</option>
-                    </select>
+                    <div class="row">
+                        <select name="font-select" id="FontSelect" class="form-select col-11">
+                            <option value="Font1">Font #1</option>
+                            <option value="Font2">Font #2</option>
+                            <option value="Font3">Font #3</option>
+                            <option value="Font4">Font #4</option>
+                            <option value="Font5">Font #5</option>
+                            <option value="Font6">Font #6</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <select name="size-select" id="SizeSelect" class="form-select col-11">
+                            <option value="Size1">Size #1</option>
+                            <option value="Size2">Size #2</option>
+                            <option value="Size3">Size #3</option>
+                            <option value="Size4">Size #4</option>
+                            <option value="Size5">Size #5</option>
+                            <option value="Size6">Size #6</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-6 s-left">
-                    <select name="size-select" id="SizeSelect" class="selectpicker" data-live-search="true">
-                        <option value="Size1">Size #1</option>
-                        <option value="Size2">Size #2</option>
-                        <option value="Size3">Size #3</option>
-                        <option value="Size4">Size #4</option>
-                        <option value="Size5">Size #5</option>
-                        <option value="Size6">Size #6</option>
-                    </select>
+                <div class="col-6">
+                    <div class="sample border border-secondary">Sample text</div>
                 </div>
             </div>
             <div class="row">
@@ -70,6 +72,9 @@
                         <input type="color" id="textcolor">
                         <label for="textcolor" class="text-label-override">TextColor</label>
                     </div>
+                </div>
+                <div class="col-6 text-center">
+                    <button class="btn btn-primary" id="button-override" type="submit">Apply</button>
                 </div>
             </div>
         </form>
