@@ -21,24 +21,24 @@
     <main class="container">
         <form>
             <div class="row">
-                <span class="col-6 s-left">
-                    <input type="checkbox">
-                    <h4 class="h4-override">Bold</h4>
-                </span>
-                <span class="col-6 s-right" >
-                    <h4 class="h4-override">Italic</h4>
-                    <input type="checkbox">
-                </span>
+                <div class="col-6 s-left">
+                    <input type="checkbox" id="bold">
+                    <label for="bold" class="label-override">Bold</label>
+                </div>
+                <div class="col-6 s-right" >
+                    <label for="italic" class="label-override">Italic</label>
+                    <input type="checkbox" id="italic">
+                </div>
             </div>
             <div class="row">
-                <span class="col-6 s-left">
-                    <input type="checkbox">
-                    <h4 class="h4-override">Underline</h4>
-                </span>
-                <span class="col-6 s-right">
-                    <h4 class="h4-override">TextBack</h4>
-                    <input type="color" value="TEXTBKG">
-                </span>
+                <div class="col-6 s-left">
+                    <input type="color" id="underline">
+                    <label for="underline">Underline</label>
+                </div>
+                <div class="col-6 s-right">
+                    <label for="textbackground">TextBack</label>
+                    <input type="color" id="textbackground">
+                </div>
             </div>
         </form>
     </main>

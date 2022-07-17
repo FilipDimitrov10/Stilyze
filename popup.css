@@ -18,16 +18,32 @@ header {
     text-align: right;
 }
 
-input[value="TEXTBKG"] {
-    width: 25px;
-    padding: 2px;
+input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+}
+
+input[type="color"] {
+    width: 20px;
+    height: 20px;
+    -webkit-appearance: none;
+    border: none;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+    border: none;
 }
 
 .row:nth-child(2) {
     margin-bottom: 40px;
 }
 
-.h4-override {
+label {
     font-size: 20px;
-    display: inline-block;
+}
+
+.label-override {
+    margin: 0px;
 }
