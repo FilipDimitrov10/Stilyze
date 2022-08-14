@@ -3,10 +3,16 @@
     "description": "Beautify your browsing experience!",
     "version": "1.0",
     "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripst": {
+        "js": "content.js"
+    },
     "icons": {"128": "images/icon_128.png"},
     "action": {
         "default_icon": "images/icon.png",
         "default_popup": "popup.html"
     },
-    "permissions": ["activeTab"]
+    "permissions": ["activeTab", "storage"]
 }
