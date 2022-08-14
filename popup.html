@@ -18,33 +18,33 @@
     </header>
        
     <main class="container">
-        <form>
+        <form onsubmit="onSubmission(event)">
             <div class="row">
                 <div class="col-6 s-left">
-                    <input type="checkbox" id="bold">
+                    <input type="checkbox" id="bold" onchange="onChangeEvent(event)">
                     <label for="bold" class="label-override">Bold</label>
                 </div>
-                <div class="col-6 s-right" >
+                <div class="col-6 s-right">
                     <label for="italic" class="label-override">Italic</label>
-                    <input type="checkbox" id="italic">
+                    <input type="checkbox" id="italic" onchange="onChangeEvent(event)">
                 </div>
             </div>
             <div class="row">
                 <div class="col-6 s-left">
-                    <input type="color" id="underline">
+                    <input type="color" id="underline" name="textDecoration" onchange="onChangeEvent(event)">
                     <label for="underline">Underline</label>
                 </div>
                 <div class="col-6 s-right">
                     <label for="textbackground">TextBack</label>
-                    <input type="color" id="textbackground">
+                    <input type="color" id="textbackground" name="backgroundColor" onchange="onChangeEvent(event)">
                 </div>
             </div>
             <div class="row">
                 <div class="col-6 s-left">
                     <div class="row">
-                        <select name="font-select" id="FontSelect" class="form-select col-11">
-                            <option value="Font1">Font #1</option>
-                            <option value="Font2">Font #2</option>
+                        <select name="fontFamily" id="FontSelect" class="form-select col-11" onchange="onChangeEvent(event)">
+                            <option value="helvetica">Helvetica</option>
+                            <option value="Arial">Arial</option>
                             <option value="Font3">Font #3</option>
                             <option value="Font4">Font #4</option>
                             <option value="Font5">Font #5</option>
@@ -52,13 +52,13 @@
                         </select>
                     </div>
                     <div class="row">
-                        <select name="size-select" id="SizeSelect" class="form-select col-11">
-                            <option value="Size1">Size #1</option>
-                            <option value="Size2">Size #2</option>
-                            <option value="Size3">Size #3</option>
-                            <option value="Size4">Size #4</option>
-                            <option value="Size5">Size #5</option>
-                            <option value="Size6">Size #6</option>
+                        <select name="fontSize" id="SizeSelect" class="form-select col-11" onchange="onChangeEvent(event)">
+                            <option value="2">2</option>
+                            <option value="4">4</option>
+                            <option value="6">6</option>
+                            <option value="14">14</option>
+                            <option value="18">18</option>
+                            <option value="32">32</option>
                         </select>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
             <div class="row">
                 <div class="col-6 s-left">
                     <div class="border border-secondary">
-                        <input type="color" id="textcolor">
+                        <input type="color" id="textcolor" name="color" onchange="onChangeEvent(event)">
                         <label for="textcolor" class="text-label-override">TextColor</label>
                     </div>
                 </div>
