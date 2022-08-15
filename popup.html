@@ -31,24 +31,30 @@
             </div>
             <div class="row">
                 <div class="col-6 s-left">
-                    <input type="color" id="underline" data-input="textDecoration">
+                    <input type="checkbox" id="underline" data-input="underline">
                     <label for="underline">Underline</label>
                 </div>
                 <div class="col-6 s-right">
-                    <label for="textbackground">TextBack</label>
-                    <input type="color" id="textbackground" data-input="backgroundColor">
+                    <label for="color">Text color</label>
+                    <input type="color" id="color" data-input="color">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 s-left">
+                    <input type="color" id="underline-color" data-input="textDecorationColor">
+                    <label for="underline-color">Underline color</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-6 s-left">
                     <div class="row">
                         <select data-input="fontFamily" id="FontSelect" class="form-select col-11">
-                            <option value="helvetica">Helvetica</option>
+                            <option value="Select font">Select font</option>
                             <option value="Arial">Arial</option>
-                            <option value="Font3">Font #3</option>
-                            <option value="Font4">Font #4</option>
-                            <option value="Font5">Font #5</option>
-                            <option value="Font6">Font #6</option>
+                            <option value="Helvetica">Helvetica</option>
+                            <option value="Impact">Impact</option>
+                            <option value="sans-serif">Sans serif</option>
+                            <option value="System-ui">System-ui</option>
                         </select>
                     </div>
                     <div class="row">
@@ -87,8 +93,8 @@
             <div class="row">
                 <div class="col-6 s-left">
                     <div class="border border-secondary">
-                        <input type="color" id="textcolor" data-input="color">
-                        <label for="textcolor" class="text-label-override">TextColor</label>
+                        <input type="color" id="backgroundcolor" data-input="backgroundColor">
+                        <label for="backgroundcolor" class="text-label-override">Site color</label>
                     </div>
                 </div>
                 <div class="col-6 text-center">

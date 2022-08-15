@@ -36,7 +36,7 @@ input[type="color"]::-webkit-color-swatch {
     border: none;
 }
 
-.row:nth-child(2) {
+.row:nth-child(3) {
     margin-bottom: 25px;
 }
 .row .row {
@@ -45,6 +45,10 @@ input[type="color"]::-webkit-color-swatch {
 }
 form > .row:last-child {
     margin-left: -20px;
+}
+
+div.col-8 {
+    display: none;
 }
 
 label {

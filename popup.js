@@ -1,18 +1,20 @@
 console.log("Hello Stilyze!");
 
 const sampleText = document.querySelector(".sample");
+
 // Select all inputs in form
 const inputs = document.querySelectorAll("[data-input]");
+const underlineColor = document.querySelector("div.col-8");
 
 // Submission fields object
 var Submission = {
     "bold": "",
     "italic": "",
     "underline": "",
-    "textback": "",
+    "color": "",
     "font": "",
     "size": "",
-    "textcolor": ""
+    "backgroundcolor": ""
 };
 
 // Populate submission fields 
@@ -24,10 +26,10 @@ function onSubmission(e) {
     Submission.bold = document.querySelector("#bold").value;
     Submission.italic = document.querySelector("#italic").value;
     Submission.underline = document.querySelector("#underline").value;
-    Submission.textback = document.querySelector("#textbackground").value;
+    Submission.color = document.querySelector("#color").value;
     Submission.font = document.querySelector("#FontSelect").value;
     Submission.size = document.querySelector("#SizeSelect").value;
-    Submission.textcolor = document.querySelector("#textcolor").value;
+    Submission.backgroundcolor = document.querySelector("#backgroundcolor").value;
 
     console.log(Submission);
 
@@ -52,6 +54,7 @@ inputs.forEach((element) => {
                 sampleText.style.fontWeight = "normal";
             }
         }
+
         // Clause for italic-checkbox input change
         if(sender.id == "italic") {
             // Check if the checkbox is checked
@@ -62,6 +65,22 @@ inputs.forEach((element) => {
                 sampleText.style.fontStyle = "normal";
             }
         }
+
+        // Clause for underline-checkbox input change 
+        if(sender.id == "underline") {
+            // Check if the checkbox is checked
+            if(sender.checked) {
+                sampleText.style.textDecoration = "underline";
+
+                underlineColor.style.display = "block";
+            }
+            else {
+                sampleText.style.textDecoration = "none";
+
+                underlineColor.style.display = "none";
+            }
+        }
+
         // Clause for fontsize input change
         if(sender.id == "SizeSelect") {
             sampleText.style.fontSize = sender.value + "px";
