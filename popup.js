@@ -1,6 +1,8 @@
 console.log("Hello Stilyze!");
 
 const sampleText = document.querySelector(".sample");
+// Select all inputs in form
+const inputs = document.querySelectorAll("[data-input]");
 
 // Submission fields object
 var Submission = {
@@ -32,49 +34,42 @@ function onSubmission(e) {
     return false;
 }
 
-// Declare counters for checkbox switching
-var boldCounter = 2;
-var italicCounter = 2;
+// Cycle through each input element
+inputs.forEach((element) => {
+    // Track and apply input changes to the sample text for each input element
+    element.addEventListener("change", (e) => {
+        e.preventDefault();
 
-// Track and apply input changes to the sample text
-function onChangeEvent(e) {
-    e.preventDefault();
+        const sender = e.target;
 
-    const sender = e.target;
-    
-    // Clause for bold-checkbox input change
-    if(sender.id == "bold") {
-        // Check if checkbox is on or off
-        if(boldCounter % 2 == 0) {
-            sampleText.style.fontWeight = "bold";
+        // Clause for bold-checkbox input change
+        if(sender.id == "bold") {
+            // Check if the checkbox is checked
+            if(sender.checked) {
+                sampleText.style.fontWeight = "bold";
+            }
+            else {
+                sampleText.style.fontWeight = "normal";
+            }
         }
-        else {
-            sampleText.style.fontWeight = "normal";
+        // Clause for italic-checkbox input change
+        if(sender.id == "italic") {
+            // Check if the checkbox is checked
+            if(sender.checked) {
+                sampleText.style.fontStyle = "italic";
+            }
+            else {
+                sampleText.style.fontStyle = "normal";
+            }
+        }
+        // Clause for fontsize input change
+        if(sender.id == "SizeSelect") {
+            sampleText.style.fontSize = sender.value + "px";
         }
 
-        // Update counter (change state)
-        boldCounter++;
-    }
-    // Clause for italic-checkbox input change
-    if(sender.id == "italic") {
-        //Check if checkbox is on or off
-        if(italicCounter % 2 == 0) {
-            sampleText.style.fontStyle = "italic";
-        }
-        else {
-            sampleText.style.fontStyle = "normal";
-        }
+        // Apply to the sample text the rest of the input changes
+        sampleText.style[sender.dataset.input] = sender.value;
 
-        // Update counter (change state)
-        italicCounter++;
-    }
-    // Clause for fontsize input change
-    if(sender.id == "SizeSelect") {
-        sampleText.style.fontSize = sender.value + "px";
-    }
-
-    // Apply to the sample text the rest of the input changes
-    sampleText.style[sender.name] = sender.value;
-
-    return false;
-}
+        return false;
+    })
+})

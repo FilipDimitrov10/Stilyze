@@ -21,28 +21,28 @@
         <form onsubmit="onSubmission(event)">
             <div class="row">
                 <div class="col-6 s-left">
-                    <input type="checkbox" id="bold" onchange="onChangeEvent(event)">
+                    <input type="checkbox" id="bold" data-input="bold">
                     <label for="bold" class="label-override">Bold</label>
                 </div>
                 <div class="col-6 s-right">
                     <label for="italic" class="label-override">Italic</label>
-                    <input type="checkbox" id="italic" onchange="onChangeEvent(event)">
+                    <input type="checkbox" id="italic" data-input="italic">
                 </div>
             </div>
             <div class="row">
                 <div class="col-6 s-left">
-                    <input type="color" id="underline" name="textDecoration" onchange="onChangeEvent(event)">
+                    <input type="color" id="underline" data-input="textDecoration">
                     <label for="underline">Underline</label>
                 </div>
                 <div class="col-6 s-right">
                     <label for="textbackground">TextBack</label>
-                    <input type="color" id="textbackground" name="backgroundColor" onchange="onChangeEvent(event)">
+                    <input type="color" id="textbackground" data-input="backgroundColor">
                 </div>
             </div>
             <div class="row">
                 <div class="col-6 s-left">
                     <div class="row">
-                        <select name="fontFamily" id="FontSelect" class="form-select col-11" onchange="onChangeEvent(event)">
+                        <select data-input="fontFamily" id="FontSelect" class="form-select col-11">
                             <option value="helvetica">Helvetica</option>
                             <option value="Arial">Arial</option>
                             <option value="Font3">Font #3</option>
@@ -52,13 +52,31 @@
                         </select>
                     </div>
                     <div class="row">
-                        <select name="fontSize" id="SizeSelect" class="form-select col-11" onchange="onChangeEvent(event)">
+                        <select data-input="fontSize" id="SizeSelect" class="form-select col-11">
                             <option value="2">2</option>
                             <option value="4">4</option>
                             <option value="6">6</option>
+                            <option value="8">8</option>
+                            <option value="10">10</option>
+                            <option value="12">12</option>
                             <option value="14">14</option>
+                            <option value="16">16</option>
                             <option value="18">18</option>
+                            <option value="20">20</option>
+                            <option value="22">22</option>
+                            <option value="24">24</option>
+                            <option value="26">26</option>
+                            <option value="28">28</option>
+                            <option value="30">30</option>
                             <option value="32">32</option>
+                            <option value="34">34</option>
+                            <option value="36">36</option>
+                            <option value="38">38</option>
+                            <option value="40">40</option>
+                            <option value="42">42</option>
+                            <option value="44">44</option>
+                            <option value="46">46</option>
+                            <option value="48">48</option>
                         </select>
                     </div>
                 </div>
@@ -69,7 +87,7 @@
             <div class="row">
                 <div class="col-6 s-left">
                     <div class="border border-secondary">
-                        <input type="color" id="textcolor" name="color" onchange="onChangeEvent(event)">
+                        <input type="color" id="textcolor" data-input="color">
                         <label for="textcolor" class="text-label-override">TextColor</label>
                     </div>
                 </div>

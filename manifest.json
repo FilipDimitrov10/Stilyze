@@ -6,9 +6,12 @@
     "background": {
         "service_worker": "background.js"
     },
-    "content_scripst": {
-        "js": "content.js"
-    },
+    "content_scripts": [
+        {
+            "matches": ["http://*/*"],
+            "js": ["content.js"]
+        }
+    ],
     "icons": {"128": "images/icon_128.png"},
     "action": {
         "default_icon": "images/icon.png",
