@@ -1,40 +1,36 @@
 console.log("Hello Stilyze!");
 
 const sampleText = document.querySelector(".sample");
+const form = document.querySelector("form");
 
 // Select all inputs in form
 const inputs = document.querySelectorAll("[data-input]");
 const underlineColor = document.querySelector("div.col-8");
 
-// Submission fields object
-var Submission = {
-    "bold": "",
-    "italic": "",
-    "underline": "",
-    "color": "",
-    "font": "",
-    "size": "",
-    "backgroundcolor": ""
-};
+// Form submission event
+form.addEventListener("submit", () => {   
 
-// Populate submission fields 
-function onSubmission(e) {
-    e.preventDefault();
-    
-    console.log("Form Submited!");
-    
-    Submission.bold = document.querySelector("#bold").value;
-    Submission.italic = document.querySelector("#italic").value;
-    Submission.underline = document.querySelector("#underline").value;
-    Submission.color = document.querySelector("#color").value;
-    Submission.font = document.querySelector("#FontSelect").value;
-    Submission.size = document.querySelector("#SizeSelect").value;
-    Submission.backgroundcolor = document.querySelector("#backgroundcolor").value;
+    // Submission fields object
+    var Submission = {
+        "bold": inputs[0].checked,
+        "italic": inputs[1].checked,
+        "underline": inputs[2].checked,
+        "color": inputs[3].value,
+        "underlinecolor": inputs[4].value,
+        "font": inputs[5].value,
+        "size": inputs[6].value,
+        "backgroundcolor": inputs[7].value
+    };
 
-    console.log(Submission);
+    // Send submitted values to content script
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.sendMessage(tabs[0].id, Submission, (response) => {
+                console.log(response);
+        })
+    });
 
     return false;
-}
+})
 
 // Cycle through each input element
 inputs.forEach((element) => {
