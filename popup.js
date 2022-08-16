@@ -8,8 +8,9 @@ const inputs = document.querySelectorAll("[data-input]");
 const underlineColor = document.querySelector("div.col-8");
 
 // Form submission event
-form.addEventListener("submit", () => {   
-
+form.addEventListener("submit", (e) => {   
+    e.preventDefault();
+    
     // Submission fields object
     var Submission = {
         "bold": inputs[0].checked,
