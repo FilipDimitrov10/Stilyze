@@ -13,7 +13,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         element.style.color = request.color;
         element.style.textDecorationColor = request.underlinecolor;
         element.style.fontFamily = request.font;
-        element.style.fontSize = request.size;
+        element.style.fontSize = request.size + "px";
     }
 
     // Send response to popup script
