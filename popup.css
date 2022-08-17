@@ -95,7 +95,13 @@ button {
     width: 60%;
     height: 35px;
 }
-
 #button-override {
     font-size: 12px;
+}
+
+#save {
+    margin-left: 6px;
+    margin-top: 10px;
+    height: 18px;
+    width: 18px;
 }

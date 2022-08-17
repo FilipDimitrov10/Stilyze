@@ -10,6 +10,8 @@ const underlineColor = document.querySelector("div.col-8");
 // Form submission event
 form.addEventListener("submit", (e) => {   
     e.preventDefault();
+
+    var Saved = inputs[7].checked;
     
     // Submission fields object
     var Submission = {
@@ -20,7 +22,6 @@ form.addEventListener("submit", (e) => {
         "underlinecolor": inputs[4].value,
         "font": inputs[5].value,
         "size": inputs[6].value,
-        "backgroundcolor": inputs[7].value
     };
 
     // Send submitted values to content script
