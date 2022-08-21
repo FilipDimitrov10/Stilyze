@@ -3,6 +3,9 @@ console.log("Hello Stilyze!");
 const sampleText = document.querySelector(".sample");
 const form = document.querySelector("form");
 
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
 // Select all inputs in form
 const inputs = document.querySelectorAll("[data-input]");
 const underlineColor = document.querySelector("div.col-8");
@@ -44,9 +47,10 @@ chrome.storage.sync.get(["bold", "italic", "underline", "color", "underlinecolor
 
         // Update sample text appearance
         sampleText.style.color = result.color;
+        sampleText.style.textDecorationColor = result.underlinecolor;
         sampleText.style.fontFamily = result.font;
         sampleText.style.fontSize = result.size + "px";
-        
+
         Save.click();
         Save.checked = "true";
     }
