@@ -7,30 +7,119 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(textSelection.anchorNode != null && textSelection.type != "Caret") {
         if (textSelection.rangeCount && textSelection.getRangeAt) {
             textRange = textSelection.getRangeAt(0);
-    
-            // Set design mode to on
-            document.designMode = "on";
-            if (textRange) {
-                textSelection.removeAllRanges();
-                textSelection.addRange(textRange);
-            }   
-        
-            // Apply changes from the extension to the webpage text
-            document.execCommand("ForeColor", false, request.color);
-            document.execCommand("fontName", false, request.font);
-        
-            // Set design mode to off
-            document.designMode = "off";
+            
+            function getNextTextNode(siblingNode) {
+                // Check if the node is null
+                if (!siblingNode) {
+                    return null;
+                }          
+                // Check if the node is a text node
+                if (siblingNode.nodeType == 3)  {
+                    return siblingNode;
+                }
+                
+                // Loop through all children of the sibling node
+                for (let Child of siblingNode.childNodes) {
+                    if (Child.nodeType == 3) {
+                        // Return the child if it is a text node
+                        return Child;
+                    }
+                    else {
+                        // Recursively call function until a descendant of the current child node is a text node,
+                        // If none are found move on to the next child
+                        let textNode = getNextTextNode(Child);
+                        if (textNode !== null) {
+                            return textNode;
+                        }
+                    }
+                }
+                
+                return null;
+            }
+
+            function getTextNodes(Range) {
+                let Ranges = [];
+                
+                // Get the node in which the selected range starts in
+                let currentNode = Range.startContainer;
+
+                let nodesToVisit = true;
+                while (nodesToVisit) {
+                    // Create start and end offset for range of current node
+                    let startOffset;
+                    let endOffset;
+                    if(currentNode == Range.startContainer) {
+                        // If current node is first node in text selection
+                        startOffset = Range.startOffset;
+                    }
+                    else {
+                        // If current node isn't first node in text selection
+                        startOffset = 0;
+                    }
+
+                    if(currentNode == Range.endContainer) {
+                        // If current node is last node in the text selection
+                        endOffset = Range.endOffset;
+                    }
+                    else {
+                        // If current node isn't last node in the text selection
+                        endOffset = currentNode.textContent.length;
+                    }
+                    
+                    // Create new range for the current element in the selected node tree
+                    let currentNodeRange = document.createRange();
+                    currentNodeRange.setStart(currentNode, startOffset);
+                    currentNodeRange.setEnd(currentNode, endOffset);
+                    Ranges.push(currentNodeRange);
+                    
+                    /// Move to the next text container in the tree order
+                    nodesToVisit = false;
+                    // Check that there isn't a node to create a range from and that the current node isn't the last node in the selection
+                    while (!nodesToVisit && currentNode != Range.endContainer) {
+                        let nextNode = getNextTextNode(currentNode.nextSibling);
+                        // Check if next node in tree order is found
+                        if (nextNode) {
+                            currentNode = nextNode;
+                            nodesToVisit = true;
+                        }
+                        else {
+                            if (currentNode.nextSibling) {
+                                // Set current node to its sibling node, if it exists
+                                currentNode = currentNode.nextSibling;
+                            }
+                            else if (currentNode.parentNode) {
+                                // Set current node to its parent node, if it exists
+                                currentNode = currentNode.parentNode;
+                            } 
+                            else {
+                                // Exit iteration
+                                break;
+                            }                    
+                        }
+                    }
+                }
+                
+                // Return created ranges
+                return Ranges;
+            }
+
+            for(let textNode of getTextNodes(textRange)) {
+                var Wrapper = document.createElement("span");
+                (request.bold) ? Wrapper.style.fontWeight = "bold" : Wrapper.style.fontWeight = "normal";
+                (request.italic) ? Wrapper.style.fontStyle = "italic" : Wrapper.style.fontStyle = "normal";
+                Wrapper.style.color = request.color;
+                Wrapper.style.fontFamily = request.font;
+                
+                textNode.surroundContents(Wrapper);
+            }
         }
     }
     else {
         // Get all elements from current webpage
-        const Elements1 = document.getElementsByTagName("*");
-
-        console.log("2");
+        const Elements = document.getElementsByTagName("*");
 
         // Add all submitted styles to webpage elements
-        for(const element of Elements1) {
+        for(const element of Elements) {
             (request.bold) ? element.style.fontWeight = "bold" : element.style.fontWeight = "normal";
             (request.italic) ? element.style.fontStyle = "italic" : element.style.fontStyle = "normal";
             (request.underline) ? element.style.textDecoration = "underline" : element.style.textDecoration = "none";
