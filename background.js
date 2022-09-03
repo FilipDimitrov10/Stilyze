@@ -33,8 +33,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 // Listen for click on extension's context menu
 chrome.contextMenus.onClicked.addListener(() => {
-    // Alert content script
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-        chrome.tabs.sendMessage(tabs[0].id, {clicked: true});
+    chrome.storage.sync.get(["bold", "italic", "underline", "color", "underlinecolor", "font", "size"], (request) => {
+        // Alert content script
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            chrome.tabs.sendMessage(tabs[0].id, {clicked: true, bold: request.bold, italic: request.italic, underline: request.underline, color: request.color, underlinecolor: request.underlinecolor, font: request.font, size: request.size});
+        });
     });
 })
