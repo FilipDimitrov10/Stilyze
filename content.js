@@ -103,18 +103,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     // Listen for click on extension's context menu
     if(request.clicked) {
-        console.log(request);
         // Get all selected text nodes
         for(let textNode of getTextNodes(textRange)) {
             // Create text-node wrapper element
-            console.log("Bruh");
             var Wrapper = document.createElement("span");
             (request.bold) ? Wrapper.style.fontWeight = "bold" : Wrapper.style.fontWeight = "normal";
             (request.italic) ? Wrapper.style.fontStyle = "italic" : Wrapper.style.fontStyle = "normal";
             Wrapper.style.color = request.color;
             Wrapper.style.fontFamily = request.font;
             
-
             // Wrap text-nodes with wrapper element
             textNode.surroundContents(Wrapper);
         }
@@ -123,7 +120,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         // Check if there is a valid, selected range of text
         if(textSelection.anchorNode != null && textSelection.type != "Caret") {
             if (textSelection.rangeCount && textSelection.getRangeAt) {
-                console.log(request);
                 // Get all selected text-nodes
                 for(let textNode of getTextNodes(textRange)) {
                     // Create text-node wrapper element
