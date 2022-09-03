@@ -20,5 +20,5 @@
         "default_icon": "images/icon.png",
         "default_popup": "popup.html"
     },
-    "permissions": ["activeTab", "storage"]
+    "permissions": ["activeTab", "storage", "contextMenus"]
 }

@@ -1,4 +1,11 @@
-console.log("Chrome extension ready 3!");
+console.log("Chrome extension ready!");
+
+// Listen for click on extension's context menu
+chrome.runtime.onMessage.addListener((request, sender, response) => {
+    if(request.clicked) {
+        console.log("Clicked!");
+    }
+})
 
 // Listen for message with submitted values coming from popup script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

@@ -142,13 +142,19 @@ inputs.forEach((element) => {
             // Check if input fields are saved
             if(sender.checked) {
                 // Add input field values to storage
-                chrome.storage.sync.set({"bold": inputs[0].checked, "italic": inputs[1].checked, "underline": inputs[2].checked, "color": inputs[3].value, "underlinecolor": inputs[4].value, "font": inputs[5].value, "size": inputs[6].value}, () => {
+                chrome.storage.sync.set({"bold": inputs[0].checked, "italic": inputs[1].checked, "underline": inputs[2].checked, "color": inputs[3].value, "underlinecolor": inputs[4].value, "font": inputs[5].value, "size": inputs[6].value, "saved": sender.checked}, () => {
                     console.log("Value fields saved!");
                 })
+                
+                // Alert background script of change in value of saved-state
+                chrome.runtime.sendMessage({saved: true});
             }
             else {
                 // Clear input field values from storage
                 chrome.storage.sync.clear();
+
+                // Alert background script of change in value of saved-state
+                chrome.runtime.sendMessage({saved: false});
             }
         }
         else {
