@@ -3,13 +3,26 @@ console.log("Hello Stilyze!");
 const sampleText = document.querySelector(".sample");
 const form = document.querySelector("form");
 
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+let prevLink;
 
 // Select all inputs in form
 const inputs = document.querySelectorAll("[data-input]");
 const underlineColor = document.querySelector("div.col-8");
 var Save = document.querySelector("#save");
+
+// Google fonts array
+const gFonts = ["Tangerine", "Cantarell", "Roboto", "Open Sans", "Lato", "Montserrat", "Oswald", "Archivo Narrow"];
+
+// Add an option for each google font and add it to the font select input
+gFonts.forEach((font) => {
+    let fontOption = document.createElement("option");
+    fontOption.textContent = font;
+    fontOption.value = font;
+
+    inputs[5].appendChild(fontOption);
+})
 
 // Get all stored values from storage
 chrome.storage.sync.get(["bold", "italic", "underline", "color", "underlinecolor", "font", "size"], (result) => {
@@ -127,6 +140,22 @@ inputs.forEach((element) => {
 
                 underlineColor.style.display = "none";
             }
+        }
+
+        if(sender.id == "FontSelect") {
+            
+            // Remove previous font link, if it exists
+            if(prevLink) {
+                prevLink.remove();
+            }
+            
+            // Create and add link element to pull the submitted font
+            let gfLink = document.createElement("link");
+            gfLink.type = "text/css";
+            gfLink.rel = "stylesheet";
+            let gfLinkHref = "https://fonts.googleapis.com/css?family=" + sender.value;
+            gfLink.href = gfLinkHref;
+            prevLink = document.head.appendChild(gfLink);
         }
 
         // Clause for fontsize input change

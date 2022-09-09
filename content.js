@@ -2,9 +2,15 @@ console.log("Chrome extension ready!");
 
 // Listen for message with submitted values coming from popup script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    // Check if the user has selected/highlighted any range of text on the webpage
     textSelection = window.getSelection();
-    textRange = textSelection.getRangeAt(0);
+
+    // Create and add link element to pull the submitted font
+    let gfLink = document.createElement("link");
+    gfLink.type = "text/css";
+    gfLink.rel = "stylesheet";
+    let gfLinkHref = "https://fonts.googleapis.com/css?family=" + request.font;
+    gfLink.href = gfLinkHref;
+    document.head.appendChild(gfLink);
 
     function getNextTextNode(siblingNode) {
         // Check if the node is null
@@ -103,6 +109,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     // Listen for click on extension's context menu
     if(request.clicked) {
+        textRange = textSelection.getRangeAt(0);
+
         // Get all selected text nodes
         for(let textNode of getTextNodes(textRange)) {
             // Create text-node wrapper element
@@ -120,6 +128,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         // Check if there is a valid, selected range of text
         if(textSelection.anchorNode != null && textSelection.type != "Caret") {
             if (textSelection.rangeCount && textSelection.getRangeAt) {
+                textRange = textSelection.getRangeAt(0);
+                
                 // Get all selected text-nodes
                 for(let textNode of getTextNodes(textRange)) {
                     // Create text-node wrapper element
@@ -127,7 +137,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     (request.bold) ? Wrapper.style.fontWeight = "bold" : Wrapper.style.fontWeight = "normal";
                     (request.italic) ? Wrapper.style.fontStyle = "italic" : Wrapper.style.fontStyle = "normal";
                     Wrapper.style.color = request.color;
-                    Wrapper.style.fontFamily = request.font;
+                    Wrapper.style.fontFamily = request.font;  
                 
                     // Wrap text-nodes with wrapper element
                     textNode.surroundContents(Wrapper);
@@ -140,13 +150,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
             // Add all submitted styles to webpage elements
             for(const element of Elements) {
-            (request.bold) ? element.style.fontWeight = "bold" : element.style.fontWeight = "normal";
-            (request.italic) ? element.style.fontStyle = "italic" : element.style.fontStyle = "normal";
-            (request.underline) ? element.style.textDecoration = "underline" : element.style.textDecoration = "none";
-            element.style.color = request.color;
-            element.style.textDecorationColor = request.underlinecolor;
-            element.style.fontFamily = request.font;
-            element.style.fontSize = request.size + "px";
+                (request.bold) ? element.style.fontWeight = "bold" : element.style.fontWeight = "normal";
+                (request.italic) ? element.style.fontStyle = "italic" : element.style.fontStyle = "normal";
+                (request.underline) ? element.style.textDecoration = "underline" : element.style.textDecoration = "none";
+                element.style.color = request.color;
+                element.style.textDecorationColor = request.underlinecolor;
+                element.style.fontFamily = request.font;
+                element.style.fontSize = request.size + "px";
             }
         }
     }
