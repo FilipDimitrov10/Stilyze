@@ -12,16 +12,16 @@ const inputs = document.querySelectorAll("[data-input]");
 const underlineColor = document.querySelector("div.col-8");
 var Save = document.querySelector("#save");
 
-// Google fonts array
-const gFonts = ["Tangerine", "Cantarell", "Roboto", "Open Sans", "Lato", "Montserrat", "Oswald", "Archivo Narrow"];
+// Fetch google fonts metadata
+fetch("./google-fonts.json").then((response) => response.json()).then((json) => {
+    // Populate select input with an option for each font
+    json.items.forEach((font) => {
+        let fontOption = document.createElement("option");
+        fontOption.textContent = font.family;
+        fontOption.value = font.family;
 
-// Add an option for each google font and add it to the font select input
-gFonts.forEach((font) => {
-    let fontOption = document.createElement("option");
-    fontOption.textContent = font;
-    fontOption.value = font;
-
-    inputs[5].appendChild(fontOption);
+        inputs[5].appendChild(fontOption);
+    })
 })
 
 // Get all stored values from storage
