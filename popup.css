@@ -11,6 +11,10 @@ header {
     text-align: center;
 }
 
+.input-container {
+    opacity: 50%;
+}
+
 .s-left {
     text-align: left;
 }
@@ -99,9 +103,6 @@ button {
     font-size: 12px;
 }
 
-#save {
-    margin-left: 6px;
-    margin-top: 10px;
-    height: 18px;
-    width: 18px;
+.reset-btn {
+    margin-left: 22px;
 }

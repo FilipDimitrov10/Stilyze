@@ -4,14 +4,6 @@ console.log("Chrome extension ready!");
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     textSelection = window.getSelection();
 
-    // Create and add link element to pull the submitted font
-    let gfLink = document.createElement("link");
-    gfLink.type = "text/css";
-    gfLink.rel = "stylesheet";
-    let gfLinkHref = "https://fonts.googleapis.com/css?family=" + request.font;
-    gfLink.href = gfLinkHref;
-    document.head.appendChild(gfLink);
-
     function getNextTextNode(siblingNode) {
         // Check if the node is null
         if (!siblingNode) {
@@ -107,6 +99,32 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return Ranges;
     }
 
+    // Create template for wrapper element
+    let wrapperTemplate = document.createElement("span");
+    if(request.bold != null) {
+        (request.bold) ? wrapperTemplate.style.fontWeight = "bold" : wrapperTemplate.style.fontWeight = "normal";
+    }
+    if(request.italic != null) {
+        (request.italic) ? wrapperTemplate.style.fontStyle = "italic" : wrapperTemplate.style.fontStyle = "normal";
+    }
+    if(request.color != null) {
+        wrapperTemplate.style.color = request.color;
+    }
+    if(request.font != null) {
+        wrapperTemplate.style.fontFamily = request.font;
+
+        // Create and add link element to pull the submitted font
+        let gfLink = document.createElement("link");
+        gfLink.type = "text/css";
+        gfLink.rel = "stylesheet";
+        let gfLinkHref = "https://fonts.googleapis.com/css?family=" + request.font;
+        gfLink.href = gfLinkHref;
+        document.head.appendChild(gfLink);
+    }
+    if(request.size != null) {
+        wrapperTemplate.style.fontSize = request.size + "px";
+    }
+
     // Listen for click on extension's context menu
     if(request.clicked) {
         textRange = textSelection.getRangeAt(0);
@@ -114,11 +132,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         // Get all selected text nodes
         for(let textNode of getTextNodes(textRange)) {
             // Create text-node wrapper element
-            var Wrapper = document.createElement("span");
-            (request.bold) ? Wrapper.style.fontWeight = "bold" : Wrapper.style.fontWeight = "normal";
-            (request.italic) ? Wrapper.style.fontStyle = "italic" : Wrapper.style.fontStyle = "normal";
-            Wrapper.style.color = request.color;
-            Wrapper.style.fontFamily = request.font;
+            let Wrapper = document.createElement("span");
+            Wrapper.style.fontWeight = wrapperTemplate.style.fontWeight;
+            Wrapper.style.fontStyle = wrapperTemplate.style.fontStyle;
+            Wrapper.style.color = wrapperTemplate.style.color;
+            Wrapper.style.fontFamily = wrapperTemplate.style.fontFamily;
+            Wrapper.style.fontSize = wrapperTemplate.style.fontSize;
             
             // Wrap text-nodes with wrapper element
             textNode.surroundContents(Wrapper);
@@ -133,12 +152,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 // Get all selected text-nodes
                 for(let textNode of getTextNodes(textRange)) {
                     // Create text-node wrapper element
-                    var Wrapper = document.createElement("span");
-                    (request.bold) ? Wrapper.style.fontWeight = "bold" : Wrapper.style.fontWeight = "normal";
-                    (request.italic) ? Wrapper.style.fontStyle = "italic" : Wrapper.style.fontStyle = "normal";
-                    Wrapper.style.color = request.color;
-                    Wrapper.style.fontFamily = request.font;  
-                
+                    let Wrapper = document.createElement("span");
+                    Wrapper.style.fontWeight = wrapperTemplate.style.fontWeight;
+                    Wrapper.style.fontStyle = wrapperTemplate.style.fontStyle;
+                    Wrapper.style.color = wrapperTemplate.style.color;
+                    Wrapper.style.fontFamily = wrapperTemplate.style.fontFamily;
+                    Wrapper.style.fontSize = wrapperTemplate.style.fontSize;
+                    
                     // Wrap text-nodes with wrapper element
                     textNode.surroundContents(Wrapper);
                 }
@@ -150,13 +170,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
             // Add all submitted styles to webpage elements
             for(const element of Elements) {
-                (request.bold) ? element.style.fontWeight = "bold" : element.style.fontWeight = "normal";
-                (request.italic) ? element.style.fontStyle = "italic" : element.style.fontStyle = "normal";
-                (request.underline) ? element.style.textDecoration = "underline" : element.style.textDecoration = "none";
-                element.style.color = request.color;
-                element.style.textDecorationColor = request.underlinecolor;
-                element.style.fontFamily = request.font;
-                element.style.fontSize = request.size + "px";
+                element.style.fontWeight = wrapperTemplate.style.fontWeight;
+                element.style.fontStyle = wrapperTemplate.style.fontStyle;
+                element.style.color = wrapperTemplate.style.color;
+                element.style.fontFamily = wrapperTemplate.style.fontFamily;
+                element.style.fontSize = wrapperTemplate.style.fontSize;
             }
         }
     }

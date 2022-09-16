@@ -16,31 +16,30 @@
         </div>
         <hr class="hr-override">
     </header>
-       
     <main class="container">
         <form>
             <div class="row">
-                <div class="col-6 s-left">
+                <div class="col-6 s-left input-container">
                     <input type="checkbox" id="bold" data-input="bold">
                     <label for="bold" class="label-override">Bold</label>
                 </div>
-                <div class="col-6 s-right">
+                <div class="col-6 s-right input-container">
                     <label for="italic" class="label-override">Italic</label>
                     <input type="checkbox" id="italic" data-input="italic">
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 s-left">
+                <div class="col-6 s-left input-container">
                     <input type="checkbox" id="underline" data-input="underline">
                     <label for="underline">Underline</label>
                 </div>
-                <div class="col-6 s-right">
+                <div class="col-6 s-right input-container">
                     <label for="color">Text color</label>
                     <input type="color" id="color" data-input="color">
                 </div>
             </div>
             <div class="row">
-                <div class="col-8 s-left">
+                <div class="col-8 s-left input-container">
                     <input type="color" id="underline-color" data-input="textDecorationColor">
                     <label for="underline-color">Underline color</label>
                 </div>
@@ -48,20 +47,13 @@
             <div class="row">
                 <div class="col-6 s-left">
                     <div class="row">
-                        <select data-input="fontFamily" id="FontSelect" class="form-select col-11">
-                            <option value="" selected disabled hidden>Select font</option>
-                            <!--<option value="Arial">Arial</!-option>
-                            <option value="Helvetica">Helvetica</option>
-                            <option value="Impact">Impact</option>
-                            <option value="sans-serif">Sans serif</option>
-                            <option value="System-ui">System-ui</option>
-                            <option value="Tangerine">Tangerine</option>
-                            <option value="Cantarell">Cantarell</option>-->
+                        <select data-input="fontFamily" id="FontSelect" class="form-select col-11 input-container">
+                            <option value="origin" selected disabled hidden data-first>Select font</option>
                         </select>
                     </div>
                     <div class="row">
-                        <select data-input="fontSize" id="SizeSelect" class="form-select col-11">
-                            <option value="" selected disabled hidden>Select size</option>
+                        <select data-input="fontSize" id="SizeSelect" class="form-select col-11 input-container">
+                            <option value="origin" selected disabled hidden>Select size</option>
                             <option value="2">2</option>
                             <option value="4">4</option>
                             <option value="6">6</option>
@@ -88,11 +80,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 s-left">
-                    <!--<div class="border border-secondary">-->
-                        <input type="checkbox" id="save" data-input="save" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Save changes">
-                        <label for="save" class="text-label-override">Save</label>
-                    <!--</div>-->
+                <div class="col-6 s-left text-center">
+                    <button class="btn btn-primary reset-btn" id="button-override" type="reset" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Reset configuration">Reset</button>
                 </div>
                 <div class="col-6 text-center">
                     <button class="btn btn-primary" id="button-override" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Apply changes to text">Apply</button>

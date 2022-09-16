@@ -1,29 +1,31 @@
 // Context menu properties object
 const contextMenuProperties = {
-    "id": "storageActive",
+    "id": "formActive",
     "title": "Style selected text with saved styling configuration",
     "contexts": ["selection"],
     "enabled": false
 };
 
-// Create extension's context menu
-chrome.contextMenus.create(contextMenuProperties)
+// Remove all previously created context menus
+chrome.contextMenus.removeAll(function() {
+    // Create extension's current context menu
+    chrome.contextMenus.create(contextMenuProperties);
+});
 
-// Check if styling configuration is already saved 
-chrome.storage.sync.get(["saved"], (result) => {
-    if(result.saved) {
-        // Activate extension's context menu 
-        chrome.contextMenus.update(contextMenuProperties.id, {
-            "enabled": true
-        });
+// Activate context menu if an input has been activated
+chrome.storage.sync.get(["bold", "italic", "underline", "color", "font", "size"], (result) => {
+    if(result.bold != null || result.italic != null || result.underline != null || result.color != null || result.font != null || result.size != null) {
+        chrome.contextMenus.update(contextMenuProperties.id, {"enabled": true});
     }
 })
 
 // Listen for change in value of saved-state
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if(request.saved) {
-        // Activate extension's context menu
-        chrome.contextMenus.update(contextMenuProperties.id, {"enabled": true});
+    if(request.activate) {
+        if(!contextMenuProperties.enabled) {
+            // Activate extension's context menu
+            chrome.contextMenus.update(contextMenuProperties.id, {"enabled": true});
+        }
     }
     else {
         // Deactivate extension's context menu
