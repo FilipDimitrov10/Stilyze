@@ -157,7 +157,6 @@ form.addEventListener("submit", (e) => {
         if(result.color != null) {
             // Populate text-color field of submission
             Submission.color = result.color;
-            console.log("bruh")
         }   
         if(result.font != null) {
             // Populate font field of submission
@@ -190,6 +189,18 @@ form.addEventListener("reset", (e) => {
         inputs[i].parentElement.style.opacity = "50%";
     }
     inputs[5].style.opacity = "50%";
+    chrome.storage.sync.get(["font"], (result) => {
+        if(result.font) {
+            let defOption = document.createElement("option");
+            defOption.dataset.dataFirst = null;
+            defOption.selected = true;
+            defOption.disabled = true;
+            defOption.hidden = true;
+            defOption.textContent = "Select font";
+
+            inputs[5].prepend(defOption);
+        }
+    })
     inputs[6].style.opacity = "50%";
 
     // Clear storage values
