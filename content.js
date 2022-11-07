@@ -99,6 +99,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return Ranges;
     }
 
+
     // Create template for wrapper element
     let wrapperTemplate = document.createElement("span");
     if(request.bold != null) {
@@ -106,6 +107,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
     if(request.italic != null) {
         (request.italic) ? wrapperTemplate.style.fontStyle = "italic" : wrapperTemplate.style.fontStyle = "normal";
+    }
+    if(request.underline != null) {
+        (request.underline) ? wrapperTemplate.style.textDecoration = "underline" : wrapperTemplate.style.textDecoration = "none";
+        wrapperTemplate.style.textDecorationColor = request.underlinecolor;
     }
     if(request.color != null) {
         wrapperTemplate.style.color = request.color;
@@ -124,60 +129,126 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(request.size != null) {
         wrapperTemplate.style.fontSize = request.size + "px";
     }
+    // Set stilyze identifier for wrapper element
+    wrapperTemplate.dataset.hijklmnop = "hap"
 
-    // Listen for click on extension's context menu
-    if(request.clicked) {
+    // Check if there is a valid text-selection
+    if(textSelection.anchorNode != null && textSelection.type != "Caret") {
+        if (textSelection.rangeCount && textSelection.getRangeAt) {
         textRange = textSelection.getRangeAt(0);
-
-        // Get all selected text nodes
-        for(let textNode of getTextNodes(textRange)) {
-            // Create text-node wrapper element
-            let Wrapper = document.createElement("span");
-            Wrapper.style.fontWeight = wrapperTemplate.style.fontWeight;
-            Wrapper.style.fontStyle = wrapperTemplate.style.fontStyle;
-            Wrapper.style.color = wrapperTemplate.style.color;
-            Wrapper.style.fontFamily = wrapperTemplate.style.fontFamily;
-            Wrapper.style.fontSize = wrapperTemplate.style.fontSize;
-            
-            // Wrap text-nodes with wrapper element
-            textNode.surroundContents(Wrapper);
+        textNodes = getTextNodes(textRange);
+        
+        // Create and populate list of reference elements for access to each selected node's parent element
+        referList = [];
+        for(let textNode of textNodes) {
+            let reference = document.createElement("span");
+            textNode.surroundContents(reference);
+        
+            referList.push(reference);
         }
-    }
-    else {
-        // Check if there is a valid, selected range of text
-        if(textSelection.anchorNode != null && textSelection.type != "Caret") {
-            if (textSelection.rangeCount && textSelection.getRangeAt) {
-                textRange = textSelection.getRangeAt(0);
+
+        if(textNodes.length == 1) {
+            // Code for single node selection
+            parentElement = referList[0].parentElement;
+
+            // Check if parent of node contains stilyze identifier
+            if(parentElement.dataset.hijklmnop == "hap") {
+                let selectedRange = textNodes[0];
+
+                // Range to mark nodes between selected node and end of parent node
+                let afRange = document.createRange();
+                afRange.setStart(parentElement, selectedRange.endOffset);
+                afRange.setEnd(parentElement, parentElement.childNodes.length);
                 
-                // Get all selected text-nodes
-                for(let textNode of getTextNodes(textRange)) {
-                    // Create text-node wrapper element
-                    let Wrapper = document.createElement("span");
-                    Wrapper.style.fontWeight = wrapperTemplate.style.fontWeight;
-                    Wrapper.style.fontStyle = wrapperTemplate.style.fontStyle;
-                    Wrapper.style.color = wrapperTemplate.style.color;
-                    Wrapper.style.fontFamily = wrapperTemplate.style.fontFamily;
-                    Wrapper.style.fontSize = wrapperTemplate.style.fontSize;
-                    
-                    // Wrap text-nodes with wrapper element
-                    textNode.surroundContents(Wrapper);
+                // Check if range's contents are empty
+                if(afRange.toString().length > 0) {
+                    let afWrapper = parentElement.cloneNode(false);
+                    afRange.surroundContents(afWrapper);
                 }
+
+                // Range to mark nodes between selected node and start of parent node
+                let befRange = document.createRange();
+                befRange.setStart(parentElement, 0);
+                befRange.setEnd(parentElement, selectedRange.startOffset);
+
+                // Wrap selected node 
+                let innerWrapper = wrapperTemplate.cloneNode();
+                selectedRange.surroundContents(innerWrapper);
+
+                // Check if range's contents are empty
+                if(befRange.toString().length > 0) {
+                    let befWrapper = parentElement.cloneNode(false);
+                    befRange.surroundContents(befWrapper);
+                }
+
+                // Get rid of reference elements and previous wrapper elements
+                referList[0].replaceWith(...referList[0].childNodes);
+                parentElement.replaceWith(...parentElement.childNodes);
+            }
+            else {
+                // Wrap selected node
+                let Wrapper = wrapperTemplate.cloneNode();
+                textNodes[0].surroundContents(Wrapper);
+                // Get rid of reference elementsGe
+                referList[0].replaceWith(...referList[0].childNodes);
             }
         }
         else {
-            // Get all elements from current webpage
-            const Elements = document.getElementsByTagName("*");
+            // Code for multi node selection
+            // Loop through all selected nodes
+            for(let i = 0; i < textNodes.length; i++) {
+                parentElement = referList[i].parentElement;
+                
+                // Wrap current node
+                let Wrapper = wrapperTemplate.cloneNode();
+                textNodes[i].surroundContents(Wrapper);
 
-            // Add all submitted styles to webpage elements
-            for(const element of Elements) {
-                element.style.fontWeight = wrapperTemplate.style.fontWeight;
-                element.style.fontStyle = wrapperTemplate.style.fontStyle;
-                element.style.color = wrapperTemplate.style.color;
-                element.style.fontFamily = wrapperTemplate.style.fontFamily;
-                element.style.fontSize = wrapperTemplate.style.fontSize;
+                // Check if first element's parent has stilyze identifier
+                if(i == 0 && parentElement.dataset.hijklmnop == "hap") {
+                    // Range to mark nodes between start of parent element and start of first selected node
+                    let befRange = document.createRange();
+                    befRange.setStart(parentElement, 0);
+                    befRange.setEnd(parentElement, textNodes[i].startOffset);
+
+                    let befWrapper = parentElement.cloneNode(false);
+                    befRange.surroundContents(befWrapper)
+                }
+                // Check if last element's parent has stilyze identifier
+                else if(i == textNodes.length - 1 && parentElement.dataset.hijklmnop == "hap") {
+                    // Range to mark nodes between end of selected node and end of parent element
+                    let afRange = document.createRange();
+                    afRange.setStart(parentElement, textNodes[i].endOffset);
+                    afRange.setEnd(parentElement, parentElement.childNodes.length);
+
+                    let afWrapper = parentElement.cloneNode(false);
+                    afRange.surroundContents(afWrapper);
+                }
+
+                // Get rid of reference elements and previous wrapper elements
+                referList[i].replaceWith(...referList[i].childNodes);
+                if(parentElement.dataset.hijklmnop == "hap") {
+                    parentElement.replaceWith(...parentElement.childNodes);
+                }
             }
         }
+        }
     }
+    else {
+        // Get all elements from current webpage
+        const Elements = document.getElementsByTagName("*");
+
+        // Add all submitted styles to webpage elements
+        for(const element of Elements) {
+            element.style.fontWeight = wrapperTemplate.style.fontWeight;
+            element.style.fontStyle = wrapperTemplate.style.fontStyle;
+            element.style.textDecoration = wrapperTemplate.style.textDecoration;
+            element.style.textDecorationColor = wrapperTemplate.style.textDecorationColor
+            element.style.color = wrapperTemplate.style.color;
+            element.style.fontFamily = wrapperTemplate.style.fontFamily;
+            element.style.fontSize = wrapperTemplate.style.fontSize;
+        }
+    }
+
     // Send response to popup script
     sendResponse({confirmation: "Message recieved!"});
 })

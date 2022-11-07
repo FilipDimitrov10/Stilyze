@@ -149,7 +149,8 @@ form.addEventListener("submit", (e) => {
         if(result.underline != null) {
             // Populate underline field of submission
             Submission.underline = result.underline;
-            if(result.underline.checked) {
+
+            if(result.underline) {
                 // Populate underline-color field of submission
                 Submission.underlinecolor = result.underlinecolor;
             }
